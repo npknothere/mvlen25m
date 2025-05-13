@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results</title>
+</head>
+<body>
+    <h2>Results</h2>
+
+    {% if movies %}
+        {% if not is_recommendation %}
+            <form method="post" action="/recommend">
+                <ul>
+                {% for movie in movies %}
+                    <li>
+                        <input type="radio" name="movie_id" value="{{ movie.movieId }}" required>
+                        {{ movie.title }} ({{ movie.genres }})
+                    </li>
+                {% endfor %}
+                </ul>
+                <button type="submit">Recommend Similar</button>
+            </form>
+        {% else %}
+            <ul>
+            {% for movie in movies %}
+                <li>{{ movie.title }} ({{ movie.genres }}) — Score: {{ movie.score | round(2) }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% else %}
+        <p>No matches found.</p>
+    {% endif %}
+
+    <br><br>
+    <form action="/" method="get">
+        <button type="submit">🔙 Go Back to Search</button>
+    </form>
+</body>
+</html>
